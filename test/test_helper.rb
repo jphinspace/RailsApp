@@ -16,6 +16,10 @@ SimpleCov.start "rails" do
   add_group "Mailers", "app/mailers"
   
   minimum_coverage 80
+  
+  # Handle parallel test execution
+  command_name "MiniTest#{ENV['TEST_ENV_NUMBER']}"
+  merge_timeout 3600
 end
 
 ENV["RAILS_ENV"] ||= "test"
@@ -25,7 +29,8 @@ require "rails/test_help"
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
-    parallelize(workers: :number_of_processors)
+    # Reduced workers for better coverage tracking
+    parallelize(workers: 1)
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all

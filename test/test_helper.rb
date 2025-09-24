@@ -19,16 +19,13 @@ SimpleCov.start "rails" do
   add_group "Mailers", "app/mailers"
 
   # Set different minimum coverage for system tests vs unit tests
-  # System tests only exercise UI paths and have lower coverage expectations  
+  # System tests only exercise UI paths and have lower coverage expectations
   # Unit tests exercise most code paths and maintain higher coverage requirements
   # The 99% requirement is enforced by our comprehensive coverage rake task
-  
-  # Check if system tests are running via environment variable
-  if ENV["RAILS_SYSTEM_TESTING"] == "true"
-    minimum_coverage 40  # Lower threshold for system tests
-  else
-    minimum_coverage 80  # Standard threshold for unit tests  
-  end
+
+  # Use 80% threshold by default (for unit tests and mixed runs)
+  # This will be overridden later if only system tests are running
+  minimum_coverage 80
 
   # Handle parallel test execution
   command_name "MiniTest#{ENV['TEST_ENV_NUMBER']}"

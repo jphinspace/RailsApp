@@ -1,6 +1,9 @@
 # Set up SimpleCov for code coverage before loading any application code
 require "simplecov"
 SimpleCov.start "rails" do
+  enable_coverage :branch
+  enable_coverage :line
+  
   add_filter "/bin/"
   add_filter "/db/"
   add_filter "/spec/" # if using RSpec
@@ -15,7 +18,8 @@ SimpleCov.start "rails" do
   add_group "Jobs", "app/jobs"
   add_group "Mailers", "app/mailers"
   
-  minimum_coverage 80
+  minimum_coverage_by_file line: 99, branch: 99
+  minimum_coverage line: 99, branch: 99
 end
 
 ENV["RAILS_ENV"] ||= "test"

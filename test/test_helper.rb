@@ -9,7 +9,6 @@ SimpleCov.start "rails" do
   add_filter "/spec/" # if using RSpec
   add_filter "/test/"
   add_filter "/config/"
-  add_filter "/vendor/"
   add_filter "/test/system" # Exempt system test from coverage
 
   add_group "Models", "app/models"

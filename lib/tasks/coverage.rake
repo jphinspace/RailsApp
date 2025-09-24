@@ -64,8 +64,10 @@ namespace :coverage do
       end
 
       puts "\nDetailed HTML report available at: coverage/index.html"
-      puts "\nNote: Individual test runs use lenient coverage requirements (40%)"
-      puts "to allow system tests to pass. The 99% requirement is enforced here."
+      puts "\nNote: Individual test runs use differential coverage requirements:"
+      puts "  - System tests: 40% (UI tests have limited code path coverage)"
+      puts "  - Unit tests: 80% (Standard threshold for comprehensive testing)"
+      puts "  - Comprehensive suite: 99% requirement is enforced here."
     else
       puts "Coverage results not found. Make sure tests ran successfully."
       exit 1

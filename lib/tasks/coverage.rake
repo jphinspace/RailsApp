@@ -10,8 +10,8 @@ namespace :coverage do
     # Set coverage environment variable
     ENV["COVERAGE"] = "true"
 
-    # Run tests
-    puts "Running test suite with coverage analysis..."
+    # Run tests (unit tests provide the complete coverage data)
+    puts "Running unit test suite with coverage analysis..."
     system("bundle exec rails test")
 
     puts "\n=== Coverage Results ==="
@@ -64,6 +64,8 @@ namespace :coverage do
       end
 
       puts "\nDetailed HTML report available at: coverage/index.html"
+      puts "\nNote: Individual test runs use lenient coverage requirements (40%)"
+      puts "to allow system tests to pass. The 99% requirement is enforced here."
     else
       puts "Coverage results not found. Make sure tests ran successfully."
       exit 1

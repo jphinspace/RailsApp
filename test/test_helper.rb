@@ -21,7 +21,7 @@ SimpleCov.start "rails" do
   # Set lenient minimum coverage for individual test runs
   # The 99% requirement is enforced by our comprehensive coverage rake task
   # Individual test runs may not exercise all code paths (especially system tests)
-  minimum_coverage 40
+  minimum_coverage 80
 
   # Handle parallel test execution
   command_name "MiniTest#{ENV['TEST_ENV_NUMBER']}"

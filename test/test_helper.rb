@@ -19,10 +19,15 @@ SimpleCov.start "rails" do
   add_group "Jobs", "app/jobs"
   add_group "Mailers", "app/mailers"
 
-  # Set lenient minimum coverage for individual test runs
-  # The 99% requirement is enforced by our comprehensive coverage rake task
-  # Individual test runs may not exercise all code paths (especially system tests)
-  minimum_coverage 80
+  # Set minimum coverage only for non-system tests
+  # System tests don't exercise all code paths, so we skip minimum coverage for them
+  is_system_test = caller.any? { |line| line.include?("/test/system/") } ||
+                   ENV["RAILS_TEST_FILES"]&.include?("system") ||
+                   $PROGRAM_NAME.include?("system")
+
+  unless is_system_test
+    minimum_coverage 80
+  end
 
   # Handle parallel test execution
   command_name "MiniTest#{ENV['TEST_ENV_NUMBER']}"

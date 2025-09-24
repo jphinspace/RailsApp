@@ -3,8 +3,8 @@
 namespace :test do
   desc "Run tests with coverage report"
   task :coverage do
-    ENV['COVERAGE'] = 'true'
-    Rake::Task['test'].invoke
+    ENV["COVERAGE"] = "true"
+    Rake::Task["test"].invoke
     puts "\nTest Coverage Report:"
     puts "Check coverage/index.html for detailed coverage report"
   end
@@ -12,14 +12,14 @@ end
 
 namespace :db do
   desc "Reset database and reseed with sample data"
-  task :reset_with_data => [:drop, :create, :migrate, :seed] do
+  task reset_with_data: [ :drop, :create, :migrate, :seed ] do
     puts "Database reset and reseeded with sample data!"
   end
 end
 
 namespace :app do
   desc "Show application statistics"
-  task :stats => :environment do
+  task stats: :environment do
     puts "\n=== RailsApp Statistics ==="
     puts "Rails Version: #{Rails.version}"
     puts "Ruby Version: #{RUBY_VERSION}"

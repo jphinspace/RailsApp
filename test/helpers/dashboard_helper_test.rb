@@ -7,7 +7,7 @@ class DashboardHelperTest < ActionView::TestCase
     # Test that the helper module is included
     assert_includes self.class.included_modules, DashboardHelper
   end
-  
+
   test "application helper methods are available" do
     # Test basic Rails helper availability
     assert_respond_to self, :number_with_delimiter

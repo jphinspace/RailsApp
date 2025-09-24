@@ -2,54 +2,54 @@
 
 namespace :coverage do
   desc "Run comprehensive coverage analysis (line, branch, and function coverage)"
-  task :comprehensive => :environment do
+  task comprehensive: :environment do
     puts "\n=== RailsApp Coverage Analysis ==="
     puts "Running comprehensive test coverage analysis..."
     puts ""
-    
+
     # Set coverage environment variable
-    ENV['COVERAGE'] = 'true'
-    
+    ENV["COVERAGE"] = "true"
+
     # Run tests
     puts "Running test suite with coverage analysis..."
     system("bundle exec rails test")
-    
+
     puts "\n=== Coverage Results ==="
-    
+
     # Read coverage results
-    if File.exist?('coverage/.last_run.json')
-      require 'json'
-      results = JSON.parse(File.read('coverage/.last_run.json'))
-      
-      line_coverage = results.dig('result', 'line') || 0
-      branch_coverage = results.dig('result', 'branch') || 0
-      
+    if File.exist?("coverage/.last_run.json")
+      require "json"
+      results = JSON.parse(File.read("coverage/.last_run.json"))
+
+      line_coverage = results.dig("result", "line") || 0
+      branch_coverage = results.dig("result", "branch") || 0
+
       puts "Line Coverage: #{line_coverage}%"
       puts "Branch Coverage: #{branch_coverage}%"
-      
+
       # Function coverage analysis
       puts "\nAnalyzing function coverage..."
-      
+
       # Count total methods
       total_methods = 0
-      Dir.glob('app/**/*.rb').each do |file|
+      Dir.glob("app/**/*.rb").each do |file|
         content = File.read(file)
         total_methods += content.scan(/def\s+/).length
       end
-      
+
       # For this app, we know all methods are tested based on our analysis
       function_coverage = 100.0
-      
+
       puts "Function Coverage: #{function_coverage}%"
       puts ""
-      
+
       puts "=== Summary ==="
       puts "✅ Line Coverage: #{line_coverage}% (Target: 99%+)"
-      puts "✅ Branch Coverage: #{branch_coverage}% (Target: 99%+)" 
+      puts "✅ Branch Coverage: #{branch_coverage}% (Target: 99%+)"
       puts "✅ Function Coverage: #{function_coverage}% (Target: 99%+)"
-      
+
       all_passed = line_coverage >= 99 && branch_coverage >= 99 && function_coverage >= 99
-      
+
       if all_passed
         puts "\n🎉 All coverage requirements met!"
         puts "   ✓ Line coverage: #{line_coverage}% >= 99%"
@@ -62,25 +62,25 @@ namespace :coverage do
         puts "   Function coverage: #{function_coverage}% #{function_coverage >= 99 ? '✓' : '✗'}"
         exit 1
       end
-      
+
       puts "\nDetailed HTML report available at: coverage/index.html"
     else
       puts "Coverage results not found. Make sure tests ran successfully."
       exit 1
     end
   end
-  
+
   desc "Check if coverage meets 99% requirements"
-  task :verify => :comprehensive do
+  task verify: :comprehensive do
     # This will run comprehensive and exit with proper status
   end
-  
+
   desc "Show current coverage status"
   task :status do
-    if File.exist?('coverage/.last_run.json')
-      require 'json'
-      results = JSON.parse(File.read('coverage/.last_run.json'))
-      
+    if File.exist?("coverage/.last_run.json")
+      require "json"
+      results = JSON.parse(File.read("coverage/.last_run.json"))
+
       puts "Current Coverage Status:"
       puts "  Line Coverage: #{results.dig('result', 'line') || 'N/A'}%"
       puts "  Branch Coverage: #{results.dig('result', 'branch') || 'N/A'}%"

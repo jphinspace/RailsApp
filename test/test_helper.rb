@@ -3,24 +3,24 @@ require "simplecov"
 SimpleCov.start "rails" do
   enable_coverage :branch
   enable_coverage :line
-  
+
   add_filter "/bin/"
   add_filter "/db/"
   add_filter "/spec/" # if using RSpec
   add_filter "/test/"
   add_filter "/config/"
   add_filter "/vendor/"
-  
+
   add_group "Models", "app/models"
   add_group "Controllers", "app/controllers"
   add_group "Views", "app/views"
   add_group "Helpers", "app/helpers"
   add_group "Jobs", "app/jobs"
   add_group "Mailers", "app/mailers"
-  
+
   minimum_coverage_by_file line: 80, branch: 99
   minimum_coverage line: 80, branch: 99
-  
+
   # Handle parallel test execution
   command_name "MiniTest#{ENV['TEST_ENV_NUMBER']}"
   merge_timeout 3600

@@ -7,14 +7,14 @@ Sale.destroy_all
 UserAnalytic.destroy_all
 
 # Sample categories
-categories = ['Electronics', 'Clothing', 'Books', 'Home & Garden', 'Sports', 'Toys']
+categories = [ 'Electronics', 'Clothing', 'Books', 'Home & Garden', 'Sports', 'Toys' ]
 products = {
-  'Electronics' => ['iPhone 15', 'MacBook Pro', 'AirPods', 'iPad', 'Apple Watch'],
-  'Clothing' => ['T-Shirt', 'Jeans', 'Sneakers', 'Jacket', 'Dress'],
-  'Books' => ['Fiction Novel', 'Programming Guide', 'Cookbook', 'Biography', 'Science Book'],
-  'Home & Garden' => ['Coffee Maker', 'Plant Pot', 'Lamp', 'Cushion', 'Garden Tool'],
-  'Sports' => ['Tennis Racket', 'Basketball', 'Running Shoes', 'Yoga Mat', 'Dumbbells'],
-  'Toys' => ['LEGO Set', 'Board Game', 'Action Figure', 'Puzzle', 'Remote Car']
+  'Electronics' => [ 'iPhone 15', 'MacBook Pro', 'AirPods', 'iPad', 'Apple Watch' ],
+  'Clothing' => [ 'T-Shirt', 'Jeans', 'Sneakers', 'Jacket', 'Dress' ],
+  'Books' => [ 'Fiction Novel', 'Programming Guide', 'Cookbook', 'Biography', 'Science Book' ],
+  'Home & Garden' => [ 'Coffee Maker', 'Plant Pot', 'Lamp', 'Cushion', 'Garden Tool' ],
+  'Sports' => [ 'Tennis Racket', 'Basketball', 'Running Shoes', 'Yoga Mat', 'Dumbbells' ],
+  'Toys' => [ 'LEGO Set', 'Board Game', 'Action Figure', 'Puzzle', 'Remote Car' ]
 }
 
 puts "Creating sales data..."
@@ -22,25 +22,25 @@ puts "Creating sales data..."
 # Generate sales data for the last 90 days
 90.times do |i|
   date = i.days.ago.to_date
-  
+
   # Generate 5-15 sales per day
   rand(5..15).times do
     category = categories.sample
     product = products[category].sample
     amount = case category
-             when 'Electronics'
+    when 'Electronics'
                rand(200.0..2000.0)
-             when 'Clothing'
+    when 'Clothing'
                rand(20.0..200.0)
-             when 'Books'
+    when 'Books'
                rand(10.0..50.0)
-             when 'Home & Garden'
+    when 'Home & Garden'
                rand(15.0..300.0)
-             when 'Sports'
+    when 'Sports'
                rand(25.0..500.0)
-             when 'Toys'
+    when 'Toys'
                rand(10.0..150.0)
-             end
+    end
 
     Sale.create!(
       amount: amount.round(2),
@@ -58,7 +58,7 @@ puts "Creating user analytics data..."
 
 90.times do |i|
   date = i.days.ago.to_date
-  
+
   # Generate analytics for 20-50 users per day
   rand(20..50).times do
     user_id = rand(1..1000)  # Simulate 1000 possible users

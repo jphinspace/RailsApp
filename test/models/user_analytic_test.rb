@@ -62,9 +62,9 @@ class UserAnalyticTest < ActiveSupport::TestCase
 
   test "total_page_views should sum all page views" do
     total = UserAnalytic.total_page_views
-    expected = user_analytics(:user_one_today).page_views + 
-               user_analytics(:user_two_today).page_views + 
-               user_analytics(:user_one_yesterday).page_views + 
+    expected = user_analytics(:user_one_today).page_views +
+               user_analytics(:user_two_today).page_views +
+               user_analytics(:user_one_yesterday).page_views +
                user_analytics(:user_three_yesterday).page_views
     assert_equal expected, total
   end

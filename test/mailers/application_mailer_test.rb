@@ -47,7 +47,7 @@ class ApplicationMailerInheritanceTest < ActionMailer::TestCase
   test "should allow subclassing through named class" do
     # Test that mailers can inherit from ApplicationMailer
     assert_equal ApplicationMailer, TestMailer.superclass
-    
+
     mailer = TestMailer.new
     assert_kind_of ApplicationMailer, mailer
   end
@@ -69,6 +69,6 @@ class ApplicationMailerInheritanceTest < ActionMailer::TestCase
     # Test mail creation without delivery
     mail = TestMailer.welcome_email("test@example.com")
     assert_instance_of ActionMailer::MessageDelivery, mail
-    assert_equal ["test@example.com"], mail.to
+    assert_equal [ "test@example.com" ], mail.to
   end
 end

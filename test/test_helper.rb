@@ -18,10 +18,17 @@ SimpleCov.start "rails" do
   add_group "Jobs", "app/jobs"
   add_group "Mailers", "app/mailers"
 
-  # Set lenient minimum coverage for individual test runs
+  # Set different minimum coverage for system tests vs unit tests
+  # System tests only exercise UI paths and have lower coverage expectations  
+  # Unit tests exercise most code paths and maintain higher coverage requirements
   # The 99% requirement is enforced by our comprehensive coverage rake task
-  # Individual test runs may not exercise all code paths (especially system tests)
-  minimum_coverage 80
+  
+  # Check if system tests are running via environment variable
+  if ENV["RAILS_SYSTEM_TESTING"] == "true"
+    minimum_coverage 40  # Lower threshold for system tests
+  else
+    minimum_coverage 80  # Standard threshold for unit tests  
+  end
 
   # Handle parallel test execution
   command_name "MiniTest#{ENV['TEST_ENV_NUMBER']}"

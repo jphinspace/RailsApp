@@ -65,9 +65,6 @@ rails test
 
 # Run with coverage report
 rails test:coverage
-
-# System tests
-rails test:system
 ```
 
 ## 📦 Key Dependencies

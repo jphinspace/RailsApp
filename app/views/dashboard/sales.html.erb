@@ -1,0 +1,80 @@
+<% content_for :title, "Sales Dashboard" %>
+
+<h1 class="text-center mb-20">💰 Sales Dashboard</h1>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <span class="stat-number">$<%= number_with_delimiter(@total_revenue.to_f.round(2)) %></span>
+    <div class="stat-label">Total Revenue</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= number_with_delimiter(@sales.count) %></span>
+    <div class="stat-label">Total Sales</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= @categories.count %></span>
+    <div class="stat-label">Categories</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number">$<%= number_with_delimiter((@total_revenue.to_f / @sales.count).round(2)) %></span>
+    <div class="stat-label">Average Sale</div>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">Revenue by Category</h2>
+  <div class="bar-chart">
+    <% max_revenue = @revenue_by_category.values.max.to_f %>
+    <% @revenue_by_category.each do |category, revenue| %>
+      <div class="bar" style="height: <%= (revenue.to_f / max_revenue * 250).round %>px;">
+        <div class="bar-value">$<%= number_with_delimiter(revenue.to_f.round) %></div>
+        <div class="bar-label"><%= category %></div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">Sales Over Time (Last 30 Days)</h2>
+  <div class="bar-chart">
+    <% recent_sales = @sales_by_date.select { |date, _| date >= 30.days.ago.to_date } %>
+    <% max_daily_sales = recent_sales.values.max.to_f %>
+    <% if max_daily_sales > 0 %>
+      <% recent_sales.to_a.last(15).each do |date, amount| %>
+        <div class="bar" style="height: <%= (amount.to_f / max_daily_sales * 200).round %>px;">
+          <div class="bar-value">$<%= number_with_delimiter(amount.to_f.round) %></div>
+          <div class="bar-label"><%= date.strftime('%m/%d') %></div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center">No recent sales data available</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">All Sales Data</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Sale Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sales.order(:sale_date).reverse_order.limit(50).each do |sale| %>
+        <tr>
+          <td><%= sale.product_name %></td>
+          <td><%= sale.category %></td>
+          <td class="text-right">$<%= number_with_delimiter(sale.amount.to_f.round(2)) %></td>
+          <td><%= sale.sale_date.strftime('%B %d, %Y') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @sales.count > 50 %>
+    <p class="text-center mt-20">Showing latest 50 sales out of <%= number_with_delimiter(@sales.count) %> total</p>
+  <% end %>
+</div>

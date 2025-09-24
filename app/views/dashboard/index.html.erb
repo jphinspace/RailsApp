@@ -1,0 +1,93 @@
+<% content_for :title, "Dashboard Overview" %>
+
+<h1 class="text-center mb-20">📊 Dashboard Overview</h1>
+
+<div class="dashboard-grid">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">💰</div>
+      <h3 class="card-title">Total Revenue</h3>
+    </div>
+    <div class="card-value">$<%= number_with_delimiter(@total_revenue.to_f.round(2)) %></div>
+    <div class="card-subtitle">All time sales</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">👀</div>
+      <h3 class="card-title">Page Views</h3>
+    </div>
+    <div class="card-value"><%= number_with_delimiter(@total_page_views) %></div>
+    <div class="card-subtitle">Total page views</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">👥</div>
+      <h3 class="card-title">Unique Users</h3>
+    </div>
+    <div class="card-value"><%= number_with_delimiter(@unique_users) %></div>
+    <div class="card-subtitle">Active users</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">⏱️</div>
+      <h3 class="card-title">Avg Session</h3>
+    </div>
+    <div class="card-value"><%= (@average_session_duration.to_f / 60).round(1) %>m</div>
+    <div class="card-subtitle">Session duration</div>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">Revenue by Category</h2>
+  <div class="bar-chart">
+    <% max_revenue = @revenue_by_category.values.max.to_f %>
+    <% @revenue_by_category.each do |category, revenue| %>
+      <div class="bar" style="height: <%= (revenue.to_f / max_revenue * 250).round %>px;">
+        <div class="bar-value">$<%= number_with_delimiter(revenue.to_f.round) %></div>
+        <div class="bar-label"><%= category %></div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">Recent Sales</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @recent_sales.each do |sale| %>
+        <tr>
+          <td><%= sale.product_name %></td>
+          <td><%= sale.category %></td>
+          <td class="text-right">$<%= number_with_delimiter(sale.amount.to_f.round(2)) %></td>
+          <td><%= sale.sale_date.strftime('%B %d, %Y') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <span class="stat-number"><%= @categories.count %></span>
+    <div class="stat-label">Product Categories</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= Sale.count %></span>
+    <div class="stat-label">Total Sales</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= UserAnalytic.count %></span>
+    <div class="stat-label">Analytics Records</div>
+  </div>
+</div>

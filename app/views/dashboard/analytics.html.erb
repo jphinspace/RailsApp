@@ -1,0 +1,85 @@
+<% content_for :title, "User Analytics Dashboard" %>
+
+<h1 class="text-center mb-20">📈 User Analytics</h1>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <span class="stat-number"><%= number_with_delimiter(@total_page_views) %></span>
+    <div class="stat-label">Total Page Views</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= number_with_delimiter(@unique_users) %></span>
+    <div class="stat-label">Unique Users</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= (@average_session_duration.to_f / 60).round(1) %>m</span>
+    <div class="stat-label">Avg Session Duration</div>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= (@total_page_views.to_f / @unique_users).round(1) %></span>
+    <div class="stat-label">Pages per User</div>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">Page Views Over Time (Last 30 Days)</h2>
+  <div class="bar-chart">
+    <% recent_views = @page_views_by_date.select { |date, _| date >= 30.days.ago.to_date } %>
+    <% max_daily_views = recent_views.values.max.to_i %>
+    <% if max_daily_views > 0 %>
+      <% recent_views.to_a.last(15).each do |date, views| %>
+        <div class="bar" style="height: <%= (views.to_f / max_daily_views * 200).round %>px;">
+          <div class="bar-value"><%= number_with_delimiter(views) %></div>
+          <div class="bar-label"><%= date.strftime('%m/%d') %></div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center">No recent page view data available</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">Average Session Duration Over Time (Last 30 Days)</h2>
+  <div class="bar-chart">
+    <% recent_sessions = @session_duration_by_date.select { |date, _| date >= 30.days.ago.to_date } %>
+    <% max_duration = recent_sessions.values.max.to_f %>
+    <% if max_duration > 0 %>
+      <% recent_sessions.to_a.last(15).each do |date, duration| %>
+        <div class="bar" style="height: <%= (duration.to_f / max_duration * 200).round %>px;">
+          <div class="bar-value"><%= (duration.to_f / 60).round(1) %>m</div>
+          <div class="bar-label"><%= date.strftime('%m/%d') %></div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center">No recent session data available</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="chart-container">
+  <h2 class="chart-title">Recent User Analytics Data</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Page Views</th>
+        <th>Session Duration</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user_analytics.order(:date).reverse_order.limit(50).each do |analytic| %>
+        <tr>
+          <td>User #<%= analytic.user_id %></td>
+          <td class="text-right"><%= number_with_delimiter(analytic.page_views) %></td>
+          <td class="text-right"><%= (analytic.session_duration.to_f / 60).round(1) %> minutes</td>
+          <td><%= analytic.date.strftime('%B %d, %Y') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @user_analytics.count > 50 %>
+    <p class="text-center mt-20">Showing latest 50 analytics records out of <%= number_with_delimiter(@user_analytics.count) %> total</p>
+  <% end %>
+</div>

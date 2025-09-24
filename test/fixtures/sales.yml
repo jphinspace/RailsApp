@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+laptop:
+  amount: 999.99
+  product_name: MacBook Pro
+  category: Electronics
+  sale_date: 2025-09-20
+
+shirt:
+  amount: 29.99
+  product_name: Cotton T-Shirt
+  category: Clothing
+  sale_date: 2025-09-21
+
+book:
+  amount: 19.99
+  product_name: Programming Guide
+  category: Books
+  sale_date: 2025-09-22
+
+lamp:
+  amount: 79.99
+  product_name: LED Desk Lamp
+  category: Home & Garden
+  sale_date: 2025-09-23

@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+user_one_today:
+  user_id: 1
+  page_views: 15
+  session_duration: 1800
+  date: <%= Date.current %>
+
+user_two_today:
+  user_id: 2
+  page_views: 8
+  session_duration: 900
+  date: <%= Date.current %>
+
+user_one_yesterday:
+  user_id: 1
+  page_views: 12
+  session_duration: 2400
+  date: <%= 1.day.ago.to_date %>
+
+user_three_yesterday:
+  user_id: 3
+  page_views: 25
+  session_duration: 3600
+  date: <%= 1.day.ago.to_date %>

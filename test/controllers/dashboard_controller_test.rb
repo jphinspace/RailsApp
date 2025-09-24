@@ -12,7 +12,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
   test "should get dashboard index with data" do
     get dashboard_index_url
     assert_response :success
-    
+
     # Check that instance variables are set
     assert assigns(:total_revenue)
     assert assigns(:total_page_views)
@@ -34,7 +34,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
   test "should get sales with data" do
     get dashboard_sales_url
-    
+
     # Check that instance variables are set
     assert assigns(:sales)
     assert assigns(:revenue_by_category)
@@ -56,7 +56,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
   test "should get analytics with data" do
     get dashboard_analytics_url
-    
+
     # Check that instance variables are set
     assert assigns(:user_analytics)
     assert assigns(:total_page_views)
@@ -70,7 +70,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
   test "sales page should display sales data" do
     get dashboard_sales_url
-    
+
     # Check for sales data in the response
     assert_select "td", text: sales(:laptop).product_name
     assert_select "td", text: sales(:shirt).category
@@ -78,14 +78,14 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
   test "analytics page should display user analytics" do
     get dashboard_analytics_url
-    
+
     # Check for analytics data in the response
     assert_select "td", text: /User ##{user_analytics(:user_one_today).user_id}/
   end
 
   test "navigation links should be present" do
     get root_url
-    
+
     assert_select "nav.navbar"
     assert_select "a[href='#{root_path}']", text: /Dashboard/
     assert_select "a[href='#{dashboard_sales_path}']", text: "Sales"
@@ -96,13 +96,13 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     # Clear all data
     Sale.destroy_all
     UserAnalytic.destroy_all
-    
+
     get root_url
     assert_response :success
-    
+
     get dashboard_sales_url
     assert_response :success
-    
+
     get dashboard_analytics_url
     assert_response :success
   end

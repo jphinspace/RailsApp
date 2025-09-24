@@ -49,7 +49,7 @@ class ApplicationJobInheritanceTest < ActiveJob::TestCase
   test "should allow subclassing through named class" do
     # Test that jobs can inherit from ApplicationJob
     assert_equal ApplicationJob, TestInheritanceJob.superclass
-    
+
     job = TestInheritanceJob.new
     assert_kind_of ApplicationJob, job
     assert_respond_to job, :perform
@@ -57,7 +57,7 @@ class ApplicationJobInheritanceTest < ActiveJob::TestCase
 
   test "should handle job enqueueing with inherited job" do
     # Test that inherited jobs can be enqueued
-    assert_enqueued_with(job: TestInheritanceJob, args: ["hello"]) do
+    assert_enqueued_with(job: TestInheritanceJob, args: [ "hello" ]) do
       TestInheritanceJob.perform_later("hello")
     end
   end

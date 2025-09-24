@@ -11,7 +11,7 @@ module DashboardHelper
 
   def format_duration(seconds)
     return "0s" if seconds.nil? || seconds.zero?
-    
+
     if seconds < 60
       "#{seconds.round}s"
     elsif seconds < 3600
@@ -24,7 +24,7 @@ module DashboardHelper
 
   def trend_indicator(current, previous)
     return "→" if previous.nil? || previous.zero?
-    
+
     change = ((current - previous) / previous.to_f * 100).round(1)
     if change > 0
       "↗ +#{change}%"
